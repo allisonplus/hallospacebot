@@ -1,4 +1,4 @@
-console.log("This is a bot");
+// console.log("This is a bot");
 
 // Require twit package.
 var Twit = require( 'twit' );
@@ -33,7 +33,7 @@ function randomAlbum() {
 	// Get randomly chosen album & assign variable to ID.
 	const albumID = albums[random].id;
 
-	console.log(`My album number is ${albumID}`);
+	// console.log(`My album number is ${albumID}`);
 
 	getAlbumInfo( albumID );
 }
@@ -47,7 +47,7 @@ function getAlbumInfo( albumID ) {
 			// List of tracks within album.
 			const trackList = response.data.message.body.track_list;
 
-			console.log('calling track list');
+			// console.log('calling track list');
 
 			randomTrack( trackList );
 		})
@@ -68,7 +68,7 @@ function randomTrack( trackList ) {
 	// Get randomly chosen track & assign variable to ID.
 	const trackID = trackList[random].track.track_id;
 
-	console.log(`My track number is ${trackID}`);
+	// console.log(`My track number is ${trackID}`);
 
 	getLyrics( trackID );
 }
@@ -95,9 +95,6 @@ function getLyrics( trackID ) {
 
 function formatLyrics( snippet ) {
 
-	// Set empty array for the final lyric output.
-	let finalLyric = [];
-
 	// Split at line breaks.
 	snippet = snippet.split( '\n' );
 
@@ -113,44 +110,49 @@ function formatLyrics( snippet ) {
 	// See how many lines.
 	console.log("the length is " + filteredLyrics.length);
 
+	selectLines( filteredLyrics );
+}
+
+function selectLines( lyrics ) {
+
+	// Set empty array for the final lyric output.
+	let finalLyric = [];
+
 	// Choose random line.
-	const firstLine = Math.floor( Math.random() * filteredLyrics.length );
+	const firstLine = Math.floor( Math.random() * lyrics.length );
 	const secondLine = firstLine + 1;
 
-	if ( firstLine === filteredLyrics.length ) {
-		firstLine--;
+	// If the selected line is the very last line, run again.
+	if ( firstLine === ( lyrics.length - 1 ) ) {
+		selectLines( lyrics );
 	} else {
-		firstLine;
+		finalLyric.push(lyrics[firstLine], lyrics[secondLine]);
+		finalLyric = finalLyric.join('\n');
 	}
 
-	finalLyric.push(filteredLyrics[firstLine], filteredLyrics[secondLine]);
-	finalLyric = finalLyric.join('\n');
-	console.log(finalLyric);
+	// Call the function that tweets the final lyric.
+	// saySomething( finalLyric );
 }
 
 randomAlbum();
 
-// **
-// saySomething();
-// setInterval(saySomething, 1000*20);
+// Tweet the final lyrics!
+function saySomething( finalLyric ) {
 
-// // If you want to tweet something...
-// function saySomething() {
+	var tweet = {
+		status: `"${finalLyric}"`
+	}
 
-// 	var tweet = {
-// 		status: 'Hallo Spacebot'
-// 	}
+	T.post('statuses/update', tweet, tweeted);
 
-// 	T.post('statuses/update', tweet, tweeted);
-
-// 	function tweeted(err, data, response) {
-// 		if (err) {
-// 			console.log( 'Something went wrong!' );
-// 		} else {
-// 			console.log( 'It worked!' );
-// 		}
-// 	}
-// }
+	function tweeted(err, data, response) {
+		if (err) {
+			console.log( 'Something went wrong!' );
+		} else {
+			console.log( 'It worked!' );
+		}
+	}
+}
 
 // Parameters
 // var params = {
