@@ -86,23 +86,46 @@ function getLyrics( trackID ) {
 			// If there are no lyrics as data, rerun process to get new random album, etc.
 			let snippet = lyricRequest !== "" ? lyricRequest : randomAlbum();
 
-			// Split at line breaks.
-			snippet = snippet.split( '\n' );
-
-			// Assign variable to filtered snippet after removing blank lines from data.
-			let filteredLyrics = snippet.filter( (line) => line !== '' );
-
-			// Figures out index where ellipsis begins.
-			const findEllipsis = filteredLyrics.indexOf( '...' );
-
-			// Chops eveything ellipsis & beyond.
-			filteredLyrics.length = findEllipsis;
-
-			console.log(filteredLyrics);
+			formatLyrics( snippet );
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
+}
+
+function formatLyrics( snippet ) {
+
+	// Set empty array for the final lyric output.
+	let finalLyric = [];
+
+	// Split at line breaks.
+	snippet = snippet.split( '\n' );
+
+	// Assign variable to filtered snippet after removing blank lines from data.
+	let filteredLyrics = snippet.filter( (line) => line !== '' );
+
+	// Figures out index where ellipsis begins.
+	const findEllipsis = filteredLyrics.indexOf( '...' );
+
+	// Chops eveything ellipsis & beyond.
+	filteredLyrics.length = findEllipsis;
+
+	// See how many lines.
+	console.log("the length is " + filteredLyrics.length);
+
+	// Choose random line.
+	const firstLine = Math.floor( Math.random() * filteredLyrics.length );
+	const secondLine = firstLine + 1;
+
+	if ( firstLine === filteredLyrics.length ) {
+		firstLine--;
+	} else {
+		firstLine;
+	}
+
+	finalLyric.push(filteredLyrics[firstLine], filteredLyrics[secondLine]);
+	finalLyric = finalLyric.join('\n');
+	console.log(finalLyric);
 }
 
 randomAlbum();
