@@ -202,13 +202,11 @@ function tweetEvent( babeReminder ) {
 			response = 'Remind me of the babe.';
 		}
 
-		// If it isn't an empty string...
+		// If it isn't an empty string...respond accordingly.
 		if ( response !== '' ) {
-			console.log(response);
+			// console.log(response);
+			responseTweet('@' + name + ' ' + response);
 		}
-
-		// Respond accordingly.
-		responseTweet('@' + name + ' ' + response);
 	}
 }
 
