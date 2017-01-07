@@ -108,7 +108,7 @@ function formatLyrics( snippet ) {
 	filteredLyrics.length = findEllipsis;
 
 	// See how many lines.
-	console.log("the length is " + filteredLyrics.length);
+	// console.log("the length is " + filteredLyrics.length);
 
 	selectLines( filteredLyrics );
 }
@@ -154,18 +154,79 @@ function saySomething( finalLyric ) {
 	}
 }
 
-// Parameters
-// var params = {
-// 	q: 'bowie',
-// 	count: 2
-// }
+// Get the twitter user stream.
+var stream = T.stream('user');
 
-// // Get request.
-// T.get('search/tweets', params, gotData);
+// Create an event when someone tweets Spacebot.
+stream.on('tweet', tweetEvent);
 
-// function gotData(err, data, response) {
-// 	var tweets = data.statuses;
-// 	for (var i = 0; i < tweets.length; i++) {
-// 		console.log(tweets[i].text);
-// 	}
-// }
+function tweetEvent( babeReminder ) {
+
+	// Create boolean for seeing if it's a reply.
+	var isReply = false;
+
+	// Did they @ me?
+	var replyTo = babeReminder.in_reply_to_screen_name;
+
+	// Reset boolean to true if they were talking to little ol' Spacebot.
+	if ( replyTo === 'HalloSpacebot' ) {
+		isReply = true;
+	}
+
+	// Content of tweet.
+	var content = babeReminder.text.toLowerCase();
+
+	// Who is talking to me?
+	var name = babeReminder.user.screen_name;
+
+	// Set response as empty string.
+	let response = '';
+
+	// Were they talking to Spacebot? If so, then...
+	if ( isReply ) {
+		if (content.includes( 'you remind me of the babe' ) ) {
+			response = 'What babe?';
+		} else if (content.includes( 'what babe' ) ) {
+			response = 'The babe with the power.';
+		} else if (content.includes( 'the babe with the power' ) ) {
+			response = 'What power?';
+		} else if (content.includes( 'what power' ) ) {
+			response = 'Power of voodoo.';
+		} else if (content.includes( 'power of voodoo' ) ) {
+			response = 'Who do?';
+		} else if (content.includes( 'who do' ) ) {
+			response = 'You do.';
+		} else if (content.includes( 'you do' ) ) {
+			response = 'Do what?';
+		} else if (content.includes( 'do what' ) ) {
+			response = 'Remind me of the babe.';
+		}
+
+		// If it isn't an empty string...
+		if ( response !== '' ) {
+			console.log(response);
+		}
+
+		// Respond accordingly.
+		responseTweet('@' + name + ' ' + response);
+	}
+}
+
+// Tweet it out, loud + proud.
+function responseTweet( txt ) {
+
+	// Content of response tweet.
+	var tweet = {
+		status: txt
+	}
+
+	T.post('statuses/update', tweet, tweeted);
+
+	function tweeted(err, data, response) {
+		if (err) {
+			console.log( 'Oops.' );
+		} else {
+			console.log( 'It worked!' );
+		}
+	}
+}
