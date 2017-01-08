@@ -1,22 +1,32 @@
-// console.log("This is a bot");
+//Require .env NPM package
+require('dotenv').config();
 
-// Require twit package.
+// Require twit NPM package.
 var Twit = require( 'twit' );
 
-// Require axios package.
+// Require axios NPM package.
 var axios = require( 'axios' );
 
-// Config file with account-specific secret keys.
-var config = require( './config' );
-
 // Pass object to twit package.
-var T = new Twit(config);
+var T = new Twit( {
+	consumer_key: process.env.CONSUMER_KEY,
+	consumer_secret: process.env.CONSUMER_SECRET,
+	access_token: process.env.ACCESS_TOKEN,
+	access_token_secret: process.env.ACCESS_TOKEN_SECRET
+} );
 
 // Variable for key.
-const key = config.key;
+const key = process.env.KEY;
 
 // Variable for Artist ID.
 const artist = '431';
+
+// How many ms in an hour?
+const hour = 3600000;
+
+// Variable for setting time interval.
+// const tweetInterval = hour * 8; // for actual bot timing
+const tweetInterval = 60000; // for initial testing
 
 // Config file for discography info.
 const albums = require( './discog' );
@@ -33,7 +43,7 @@ function randomAlbum() {
 	// Get randomly chosen album & assign variable to ID.
 	const albumID = albums[random].id;
 
-	// console.log(`My album number is ${albumID}`);
+	console.log(`My album number is ${albumID}`);
 
 	getAlbumInfo( albumID );
 }
@@ -47,7 +57,7 @@ function getAlbumInfo( albumID ) {
 			// List of tracks within album.
 			const trackList = response.data.message.body.track_list;
 
-			// console.log('calling track list');
+			console.log('calling track list');
 
 			randomTrack( trackList );
 		})
@@ -68,7 +78,7 @@ function randomTrack( trackList ) {
 	// Get randomly chosen track & assign variable to ID.
 	const trackID = trackList[random].track.track_id;
 
-	// console.log(`My track number is ${trackID}`);
+	console.log(`My track number is ${trackID}`);
 
 	getLyrics( trackID );
 }
@@ -108,7 +118,7 @@ function formatLyrics( snippet ) {
 	filteredLyrics.length = findEllipsis;
 
 	// See how many lines.
-	// console.log("the length is " + filteredLyrics.length);
+	console.log("the length is " + filteredLyrics.length);
 
 	selectLines( filteredLyrics );
 }
@@ -131,10 +141,8 @@ function selectLines( lyrics ) {
 	}
 
 	// Call the function that tweets the final lyric.
-	// saySomething( finalLyric );
+	saySomething( finalLyric );
 }
-
-randomAlbum();
 
 // Tweet the final lyrics!
 function saySomething( finalLyric ) {
@@ -145,6 +153,8 @@ function saySomething( finalLyric ) {
 
 	T.post('statuses/update', tweet, tweeted);
 
+	console.log(finalLyric);
+
 	function tweeted(err, data, response) {
 		if (err) {
 			console.log( 'Something went wrong!' );
@@ -153,6 +163,9 @@ function saySomething( finalLyric ) {
 		}
 	}
 }
+
+// Set how often Spacebot tweets a lyric by kicking off searching for a random album.
+setInterval( randomAlbum, tweetInterval );
 
 // Get the twitter user stream.
 var stream = T.stream('user');
