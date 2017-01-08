@@ -25,8 +25,7 @@ const artist = '431';
 const hour = 3600000;
 
 // Variable for setting time interval.
-// const tweetInterval = hour * 8; // for actual bot timing
-const tweetInterval = 60000; // for initial testing
+const tweetInterval = hour * 8; // for actual bot timing
 
 // Config file for discography info.
 const albums = require( './discog' );
@@ -43,7 +42,7 @@ function randomAlbum() {
 	// Get randomly chosen album & assign variable to ID.
 	const albumID = albums[random].id;
 
-	console.log(`My album number is ${albumID}`);
+	// console.log(`My album number is ${albumID}`);
 
 	getAlbumInfo( albumID );
 }
@@ -57,7 +56,7 @@ function getAlbumInfo( albumID ) {
 			// List of tracks within album.
 			const trackList = response.data.message.body.track_list;
 
-			console.log('calling track list');
+			// console.log('calling track list');
 
 			randomTrack( trackList );
 		})
@@ -78,7 +77,7 @@ function randomTrack( trackList ) {
 	// Get randomly chosen track & assign variable to ID.
 	const trackID = trackList[random].track.track_id;
 
-	console.log(`My track number is ${trackID}`);
+	// console.log(`My track number is ${trackID}`);
 
 	getLyrics( trackID );
 }
@@ -118,7 +117,7 @@ function formatLyrics( snippet ) {
 	filteredLyrics.length = findEllipsis;
 
 	// See how many lines.
-	console.log("the length is " + filteredLyrics.length);
+	// console.log("the length is " + filteredLyrics.length);
 
 	selectLines( filteredLyrics );
 }
