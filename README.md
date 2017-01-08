@@ -1,10 +1,10 @@
 ## Hallo Spacebot
 
-A Twitter bot (work in progress).
+A Twitter bot that provides moonlight, Bowie lyrics and stardust companionship.
 
 ## About This Project
 
-What happens when you love David Bowie and think to yourself, "I want to practice some JavaScript" and then you add like 8 other new things you have to comprehend to get to that original end goal.
+Currently Spacebot tweets lyrics every eight hours. These lyrics are sourced (randomly) from an API from David Bowie’s discography. It also has a ‘call and response’ function when Twitter users @ it with parts of the ‘You remind me of the babe’ banter from the movie _Labyrinth_.
 
 ## API Reference
 
