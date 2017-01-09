@@ -163,10 +163,7 @@ function saySomething( finalLyric ) {
 	}
 }
 
-// 1.) Tweet out a lyric initially when initialized.
-randomAlbum();
-
-// 2.) Set how often Spacebot tweets a lyric by kicking off searching for a random album.
+// 1.) Set how often Spacebot tweets a lyric by kicking off searching for a random album.
 setInterval( randomAlbum, tweetInterval );
 
 // Get the twitter user stream.
