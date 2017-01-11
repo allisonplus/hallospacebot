@@ -25,7 +25,7 @@ const artist = '431';
 const hour = 3600000;
 
 // Variable for setting time interval.
-const tweetInterval = 10000; // for actual bot timing
+const tweetInterval = hour * 8; // for actual bot timing
 
 // Config file for discography info.
 const albums = require( './discog' );
@@ -159,9 +159,9 @@ function saySomething( finalLyric ) {
 		status: `"${finalLyric}"`
 	}
 
-	// T.post('statuses/update', tweet, tweeted);
+	T.post('statuses/update', tweet, tweeted);
 
-	console.log(finalLyric);
+	// console.log(finalLyric);
 
 	function tweeted(err, data, response) {
 		if (err) {
