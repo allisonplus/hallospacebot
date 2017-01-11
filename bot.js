@@ -104,9 +104,13 @@ function getLyrics( trackID ) {
 
 function formatLyrics( snippet ) {
 
-	// Split at line breaks.
-	snippet = snippet.split( '\n' );
-	// console.log( typeof snippet);
+	// If snippet is undefined, go back to the drawing board.
+	if ( snippet === undefined ) {
+		randomAlbum();
+	} else {
+		// Split at line breaks.
+		snippet = snippet.split( '\n' );
+	}
 
 	// Assign variable to filtered snippet after removing blank lines from data.
 	let filteredLyrics = snippet.filter( (line) => line !== '' );
@@ -116,8 +120,6 @@ function formatLyrics( snippet ) {
 
 	// Chops eveything ellipsis & beyond.
 	filteredLyrics.length = findEllipsis;
-
-	// console.log( Array.isArray( filteredLyrics ) );
 
 	// See how many lines.
 	// console.log("the length is " + filteredLyrics.length);
