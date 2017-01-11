@@ -25,7 +25,7 @@ const artist = '431';
 const hour = 3600000;
 
 // Variable for setting time interval.
-const tweetInterval = hour * 8; // for actual bot timing
+const tweetInterval = 10000; // for actual bot timing
 
 // Config file for discography info.
 const albums = require( './discog' );
@@ -61,7 +61,7 @@ function getAlbumInfo( albumID ) {
 			randomTrack( trackList );
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log(error, "Trouble with getting track list");
 		});
 }
 
@@ -98,7 +98,7 @@ function getLyrics( trackID ) {
 			formatLyrics( snippet );
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log(error, "Trouble with getting lyrics");
 		});
 }
 
@@ -106,6 +106,7 @@ function formatLyrics( snippet ) {
 
 	// Split at line breaks.
 	snippet = snippet.split( '\n' );
+	// console.log( typeof snippet);
 
 	// Assign variable to filtered snippet after removing blank lines from data.
 	let filteredLyrics = snippet.filter( (line) => line !== '' );
@@ -115,6 +116,8 @@ function formatLyrics( snippet ) {
 
 	// Chops eveything ellipsis & beyond.
 	filteredLyrics.length = findEllipsis;
+
+	// console.log( Array.isArray( filteredLyrics ) );
 
 	// See how many lines.
 	// console.log("the length is " + filteredLyrics.length);
@@ -131,8 +134,12 @@ function selectLines( lyrics ) {
 	const firstLine = Math.floor( Math.random() * lyrics.length );
 	const secondLine = firstLine + 1;
 
-	// If the selected line is the very last line, run again.
-	if ( firstLine === ( lyrics.length - 1 ) ) {
+	// If lyrics' length is 1 or less, start over.
+	if ( lyrics.length <= 1 ) {
+		console.log( "There weren't enough lyrics." );
+		randomAlbum();
+	} // If the selected line is the very last line, run again.
+	else if ( firstLine === ( lyrics.length - 1 ) ) {
 		selectLines( lyrics );
 	} else {
 		finalLyric.push(lyrics[firstLine], lyrics[secondLine]);
@@ -150,7 +157,7 @@ function saySomething( finalLyric ) {
 		status: `"${finalLyric}"`
 	}
 
-	T.post('statuses/update', tweet, tweeted);
+	// T.post('statuses/update', tweet, tweeted);
 
 	console.log(finalLyric);
 
@@ -165,6 +172,9 @@ function saySomething( finalLyric ) {
 
 // 1.) Set how often Spacebot tweets a lyric by kicking off searching for a random album.
 setInterval( randomAlbum, tweetInterval );
+
+// 2.) Tweet out a lyric initially when initialized.
+randomAlbum();
 
 // Get the twitter user stream.
 var stream = T.stream('user');
@@ -236,7 +246,7 @@ function responseTweet( txt ) {
 		if (err) {
 			console.log( 'Oops.' );
 		} else {
-			console.log( 'It worked!' );
+			console.log( 'Response completed.' );
 		}
 	}
 }
