@@ -165,9 +165,9 @@ function saySomething( finalLyric ) {
 
 	function tweeted(err, data, response) {
 		if (err) {
-			console.log( 'Something went wrong!' );
+			console.log( 'Uh oh, something askew.' );
 		} else {
-			console.log( 'It worked!' );
+			console.log( 'Woo, it worked!' );
 		}
 	}
 }
