@@ -92,10 +92,13 @@ function getLyrics( trackID ) {
 			// Assign variable to lyrics request to make less unwieldy.
 			const lyricRequest = response.data.message.body.lyrics.lyrics_body;
 
-			// If there are no lyrics as data, rerun process to get new random album, etc.
-			let snippet = lyricRequest !== "" ? lyricRequest : randomAlbum();
-
-			formatLyrics( snippet );
+			// If it returns lyrics, keep going - if not, go back to the drawing board.
+			if ( lyricRequest !== '' ) {
+				let snippet = lyricRequest;
+				formatLyrics( snippet );
+			} else {
+				randomAlbum();
+			}
 		})
 		.catch(function (error) {
 			console.log(error, "Trouble with getting lyrics");
@@ -146,10 +149,11 @@ function selectLines( lyrics ) {
 	} else {
 		finalLyric.push(lyrics[firstLine], lyrics[secondLine]);
 		finalLyric = finalLyric.join('\n');
+
+		// Call the function that tweets the final lyric.
+		saySomething( finalLyric );
 	}
 
-	// Call the function that tweets the final lyric.
-	saySomething( finalLyric );
 }
 
 // Tweet the final lyrics!
