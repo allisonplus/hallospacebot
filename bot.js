@@ -34,6 +34,11 @@ const albums = require( './discog' );
 // Get the twitter user stream (for responses to Spacebot).
 const stream = T.stream('user');
 
+// Return random number.
+function randomNum( length ) {
+	return Math.floor( Math.random() * length );
+}
+
 // Calculate a random index for album list.
 function randomAlbum() {
 
@@ -41,7 +46,7 @@ function randomAlbum() {
 	const length = albums.length;
 
 	// Return random number from how many albums available.
-	const random = Math.floor( Math.random() * length );
+	const random = randomNum( length );
 
 	// Get randomly chosen album & assign variable to ID.
 	const albumID = albums[random].id;
@@ -76,7 +81,7 @@ function randomTrack( trackList ) {
 	const length = trackList.length;
 
 	// Return random number from how many tracks available.
-	const random = Math.floor( Math.random() * length );
+	const random = randomNum( length );
 
 	// Get randomly chosen track & assign variable to ID.
 	const trackID = trackList[random].track.track_id;
@@ -140,7 +145,7 @@ function selectLines( lyrics ) {
 	let finalLyric = [];
 
 	// Choose random line.
-	const firstLine = Math.floor( Math.random() * lyrics.length );
+	const firstLine = randomNum( lyrics.length );
 	const secondLine = firstLine + 1;
 
 	// If lyrics' length is 1 or less, start over.
