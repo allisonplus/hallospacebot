@@ -2,13 +2,13 @@
 require('dotenv').config();
 
 // Require twit NPM package.
-var Twit = require( 'twit' );
+const Twit = require( 'twit' );
 
 // Require axios NPM package.
-var axios = require( 'axios' );
+const axios = require( 'axios' );
 
 // Pass object to twit package.
-var T = new Twit( {
+const T = new Twit( {
 	consumer_key: process.env.CONSUMER_KEY,
 	consumer_secret: process.env.CONSUMER_SECRET,
 	access_token: process.env.ACCESS_TOKEN,
@@ -25,7 +25,8 @@ const artist = '431';
 const hour = 3600000;
 
 // Variable for setting time interval.
-const tweetInterval = hour * 8; // for actual bot timing
+// const tweetInterval = hour * 8; // for actual bot timing
+const tweetInterval = 10000; // for testing bot timing
 
 // Config file for discography info.
 const albums = require( './discog' );
@@ -159,13 +160,13 @@ function selectLines( lyrics ) {
 // Tweet the final lyrics!
 function saySomething( finalLyric ) {
 
-	var tweet = {
+	const tweet = {
 		status: `"${finalLyric}"`
 	}
 
-	T.post('statuses/update', tweet, tweeted);
+	// T.post('statuses/update', tweet, tweeted);
 
-	// console.log(finalLyric);
+	console.log(finalLyric);
 
 	function tweeted(err, data, response) {
 		if (err) {
@@ -183,7 +184,7 @@ setInterval( randomAlbum, tweetInterval );
 randomAlbum();
 
 // Get the twitter user stream.
-var stream = T.stream('user');
+const stream = T.stream('user');
 
 // Create an event when someone tweets Spacebot.
 stream.on('tweet', tweetEvent);
@@ -191,10 +192,10 @@ stream.on('tweet', tweetEvent);
 function tweetEvent( babeReminder ) {
 
 	// Create boolean for seeing if it's a reply.
-	var isReply = false;
+	let isReply = false;
 
 	// Did they @ me?
-	var replyTo = babeReminder.in_reply_to_screen_name;
+	const replyTo = babeReminder.in_reply_to_screen_name;
 
 	// Reset boolean to true if they were talking to little ol' Spacebot.
 	if ( replyTo === 'HalloSpacebot' ) {
@@ -202,10 +203,10 @@ function tweetEvent( babeReminder ) {
 	}
 
 	// Content of tweet.
-	var content = babeReminder.text.toLowerCase();
+	const content = babeReminder.text.toLowerCase();
 
 	// Who is talking to me?
-	var name = babeReminder.user.screen_name;
+	const name = babeReminder.user.screen_name;
 
 	// Set response as empty string.
 	let response = '';
@@ -242,7 +243,7 @@ function tweetEvent( babeReminder ) {
 function responseTweet( txt ) {
 
 	// Content of response tweet.
-	var tweet = {
+	const tweet = {
 		status: txt
 	}
 
