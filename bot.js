@@ -31,6 +31,9 @@ const tweetInterval = 10000; // for testing bot timing
 // Config file for discography info.
 const albums = require( './discog' );
 
+// Get the twitter user stream (for responses to Spacebot).
+const stream = T.stream('user');
+
 // Calculate a random index for album list.
 function randomAlbum() {
 
@@ -182,9 +185,6 @@ setInterval( randomAlbum, tweetInterval );
 
 // 2.) Tweet out a lyric initially when initialized.
 randomAlbum();
-
-// Get the twitter user stream.
-const stream = T.stream('user');
 
 // Create an event when someone tweets Spacebot.
 stream.on('tweet', tweetEvent);
