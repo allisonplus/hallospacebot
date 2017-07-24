@@ -56,7 +56,7 @@ function tweetIt() {
 				console.log( "It worked!" );
 			}
 		} // end tweeted
-	} // end processing()
+	} // end processing
 } // end tweetIt
 
 // Create an event when someone tweets bot.
@@ -74,7 +74,7 @@ function convoTest( tweet ) {
 	// You talking to me?
 	if ( reply_to === 'NiceNiceBot' ) {
 
-		// What happens if there's no <img>?
+		// What if there's no <img>?
 		if ( media === undefined ) {
 			const reply = '@' + name + ' I need an image to do something!';
 			T.post( 'statuses/update', {
@@ -82,7 +82,7 @@ function convoTest( tweet ) {
 				in_reply_to_status_id: id
 			}, tweeted );
 
-		// But if there is an image, get it.
+		// & if there is an <img>? GET IT.
 		} else if ( media.length > 0 ) {
 			const img = media[0].media_url;
 			downloadMedia( img, 'upload' );
@@ -91,15 +91,15 @@ function convoTest( tweet ) {
 
 	// Snag the media.
 	function downloadMedia( url, filename ) {
-		console.log( 'I\'m going to try to download the file for you, okay?' );
 
 		console.log( 'Trying to download url: ' + url + ' to ' + filename );
 
 		// Make HTTP request.
 		request.head( url, downloadComplete );
 
-		// TODO: What to do once the <img> is downloaded
 		function downloadComplete( error, response, body ) {
+
+			// console.log('downloadComplete function started...');
 
 			// Get the type of file.
 			const type = response.headers['content-type'];
@@ -109,26 +109,55 @@ function convoTest( tweet ) {
 			const ext = type.substring(i + 1, type.length);
 			filename = `${filename}.${ext}`;
 
-			// TODO: Put in processing folder
 			// Save it to disk as that file + put in proper folder.
 			request( url ).pipe( fs.createWriteStream('assets/' + filename ) ).on( 'close', fileSaved );
 
 			function fileSaved() {
-				// TODO: Do something to it w/ Processing
-			}
 
+				// console.log('fileSaved function started...');
 
-			// TODO: Reupload back to twitter
-			// TODO: Send back to user / post?
+				// Processing via command line.
+				var cmd = 'processing-java --sketch=`pwd`/assets/ --run ' + filename;
+				exec( cmd, processing );
 
+				function processing( error, sendout ) {
 
-		} // downloadComplete
+					// console.log('processing function started...');
+
+					// Read .pde file.
+					var b64content = fs.readFileSync( 'assets/output.jpeg', {
+						encoding: 'base64'
+					} )
+
+					// Upload media.
+					T.post( 'media/upload', {
+						media_data: b64content
+					}, uploaded );
+
+					function uploaded( err, data, response ) {
+
+						// console.log('uploaded function started...');
+
+						// Reference the media + post tweet w/ media attached.
+						var mediaIdStr = data.media_id_string;
+						var params = {
+							status: '@' + name + ' #FingersCrossed',
+							in_reply_to_status_id: id,
+							media_ids: [mediaIdStr]
+						}
+
+						// Post tweet.
+					 	T.post( 'statuses/update', params, tweeted );
+					}; // end uploaded
+				} // end processing
+			} // end fileSaved
+		} // end downloadComplete
 	} // end downloadMedia
 } // end convoTest
 
 function tweeted( error, success ) {
 	if ( error !== undefined ) {
-		console.log( error ) ;
+		console.log( error );
 	} else {
 		console.log( 'Tweeted: ' + success.text );
 	}
