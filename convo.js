@@ -1,16 +1,16 @@
 console.log( 'Image bot functionality initializing...' );
 
 //Require .env NPM package
-require('dotenv').config();
+require( 'dotenv' ).config();
 
 // Require twit NPM package.
-var Twit = require('twit');
+var Twit = require( 'twit' );
 
-var exec = require('child_process').exec;
-var fs = require('fs');
+var exec = require( 'child_process' ).exec;
+var fs = require( 'fs' );
 
 // Request for downloading files
-var request = require('request');
+var request = require( 'request' );
 
 // // Pass object to twit package.
 const T = new Twit( {
@@ -21,7 +21,7 @@ const T = new Twit( {
 } );
 
 // Get the twitter user stream (for responses to bot).
-const stream = T.stream('user');
+const stream = T.stream( 'user' );
 
 // tweetIt();
 
@@ -71,11 +71,6 @@ function convoTest( tweet ) {
 	const media = tweet.entities.media;
 	const id = tweet.id_str;
 
-	// console.log(reply_to);
-	// console.log(name);
-	// console.log(txt);
-	// console.log(id);
-
 	// You talking to me?
 	if ( reply_to === 'NiceNiceBot' ) {
 
@@ -90,7 +85,7 @@ function convoTest( tweet ) {
 		// But if there is an image, get it.
 		} else if ( media.length > 0 ) {
 			const img = media[0].media_url;
-			downloadMedia( img, 'media' );
+			downloadMedia( img, 'upload' );
 		}
 	} // endif
 
@@ -100,25 +95,40 @@ function convoTest( tweet ) {
 
 		console.log( 'Trying to download url: ' + url + ' to ' + filename );
 
-		// Make OAUTH request.
-		// request.head( url, downloaded );
+		// Make HTTP request.
+		request.head( url, downloadComplete );
 
-		function downloadComplete() {
+		// TODO: What to do once the <img> is downloaded
+		function downloadComplete( error, response, body ) {
+
+			// Get the type of file.
+			const type = response.headers['content-type'];
+
+			// Create file name you'll be saving it as.
+			const i = type.indexOf('/');
+			const ext = type.substring(i + 1, type.length);
+			filename = `${filename}.${ext}`;
+
+			// TODO: Put in processing folder
+			// Save it to disk as that file + put in proper folder.
+			request( url ).pipe( fs.createWriteStream('assets/' + filename ) ).on( 'close', fileSaved );
+
+			function fileSaved() {
+				// TODO: Do something to it w/ Processing
+			}
+
+
+			// TODO: Reupload back to twitter
+			// TODO: Send back to user / post?
+
 
 		} // downloadComplete
 	} // end downloadMedia
-
-	// TODO: What to do once the <img> is downloaded
-	// TODO: Put in processing folder
-	// TODO: Do something to it w/ Processing
-	// TODO: Reupload back to twitter
-	// TODO: Send back to user / post?
-
 } // end convoTest
 
-function tweeted( err, success ) {
-	if ( err !== undefined ) {
-		console.log( err ) ;
+function tweeted( error, success ) {
+	if ( error !== undefined ) {
+		console.log( error ) ;
 	} else {
 		console.log( 'Tweeted: ' + success.text );
 	}
