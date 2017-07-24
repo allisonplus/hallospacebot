@@ -1,7 +1,16 @@
 PImage img;
-img = loadImage("upload.jpeg");
-image(img, 0, 0);
-tint(0, 153, 204, 126);
-image(img, 50, 0);
-save("output.jpeg");
-exit();
+PImage galactic;
+
+void setup() {
+  size( 800, 500 );
+  img = loadImage("upload.jpeg");
+  galactic = loadImage("lightning.jpg");
+}
+
+void draw() {
+  background(galactic);
+  tint(255, 255, 155, 150);
+  image(img, 0, 0);
+  save("output.jpeg");
+  exit();
+}
