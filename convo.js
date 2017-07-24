@@ -99,7 +99,7 @@ function convoTest( tweet ) {
 
 		function downloadComplete( error, response, body ) {
 
-			// console.log('downloadComplete function started...');
+			console.log('downloadComplete function started...');
 
 			// Get the type of file.
 			const type = response.headers['content-type'];
@@ -114,7 +114,7 @@ function convoTest( tweet ) {
 
 			function fileSaved() {
 
-				// console.log('fileSaved function started...');
+				console.log('fileSaved function started...');
 
 				// Processing via command line.
 				var cmd = 'processing-java --sketch=`pwd`/assets/ --run ' + filename;
@@ -122,7 +122,7 @@ function convoTest( tweet ) {
 
 				function processing( error, sendout ) {
 
-					// console.log('processing function started...');
+					console.log('processing function started...');
 
 					// Read .pde file.
 					var b64content = fs.readFileSync( 'assets/output.jpeg', {
@@ -136,12 +136,12 @@ function convoTest( tweet ) {
 
 					function uploaded( err, data, response ) {
 
-						// console.log('uploaded function started...');
+						console.log('uploaded function started...');
 
 						// Reference the media + post tweet w/ media attached.
 						var mediaIdStr = data.media_id_string;
 						var params = {
-							status: '@' + name + ' #FingersCrossed',
+							status: '@' + name + ' #WhatWillActuallyAppear',
 							in_reply_to_status_id: id,
 							media_ids: [mediaIdStr]
 						}
