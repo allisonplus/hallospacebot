@@ -32,7 +32,7 @@ const tweetInterval = hour * 8; // for actual bot timing
 const albums = require( './discog' );
 
 // Get the twitter user stream (for responses to Spacebot).
-const stream = T.stream('user');
+// const stream = T.stream('user');
 
 // Return random number.
 function randomNum( length ) {
