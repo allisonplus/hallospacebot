@@ -192,73 +192,73 @@ setInterval( randomAlbum, tweetInterval );
 randomAlbum();
 
 // Create an event when someone tweets Spacebot.
-stream.on('tweet', tweetEvent);
+// stream.on('tweet', tweetEvent);
 
-function tweetEvent( babeReminder ) {
+// function tweetEvent( babeReminder ) {
 
-	// Create boolean for seeing if it's a reply.
-	let isReply = false;
+// 	// Create boolean for seeing if it's a reply.
+// 	let isReply = false;
 
-	// Did they @ me?
-	const replyTo = babeReminder.in_reply_to_screen_name;
+// 	// Did they @ me?
+// 	const replyTo = babeReminder.in_reply_to_screen_name;
 
-	// Reset boolean to true if they were talking to little ol' Spacebot.
-	if ( replyTo === 'HalloSpacebot' ) {
-		isReply = true;
-	}
+// 	// Reset boolean to true if they were talking to little ol' Spacebot.
+// 	if ( replyTo === 'HalloSpacebot' ) {
+// 		isReply = true;
+// 	}
 
-	// Content of tweet.
-	const content = babeReminder.text.toLowerCase();
+// 	// Content of tweet.
+// 	const content = babeReminder.text.toLowerCase();
 
-	// Who is talking to me?
-	const name = babeReminder.user.screen_name;
+// 	// Who is talking to me?
+// 	const name = babeReminder.user.screen_name;
 
-	// Set response as empty string.
-	let response = '';
+// 	// Set response as empty string.
+// 	let response = '';
 
-	// Were they talking to Spacebot? If so, then...
-	if ( isReply ) {
-		if (content.includes( 'you remind me of the babe' ) ) {
-			response = 'What babe?';
-		} else if (content.includes( 'what babe' ) ) {
-			response = 'The babe with the power.';
-		} else if (content.includes( 'the babe with the power' ) ) {
-			response = 'What power?';
-		} else if (content.includes( 'what power' ) ) {
-			response = 'Power of voodoo.';
-		} else if (content.includes( 'power of voodoo' ) ) {
-			response = 'Who do?';
-		} else if (content.includes( 'who do' ) ) {
-			response = 'You do.';
-		} else if (content.includes( 'you do' ) ) {
-			response = 'Do what?';
-		} else if (content.includes( 'do what' ) ) {
-			response = 'Remind me of the babe.';
-		}
+// 	// Were they talking to Spacebot? If so, then...
+// 	if ( isReply ) {
+// 		if (content.includes( 'you remind me of the babe' ) ) {
+// 			response = 'What babe?';
+// 		} else if (content.includes( 'what babe' ) ) {
+// 			response = 'The babe with the power.';
+// 		} else if (content.includes( 'the babe with the power' ) ) {
+// 			response = 'What power?';
+// 		} else if (content.includes( 'what power' ) ) {
+// 			response = 'Power of voodoo.';
+// 		} else if (content.includes( 'power of voodoo' ) ) {
+// 			response = 'Who do?';
+// 		} else if (content.includes( 'who do' ) ) {
+// 			response = 'You do.';
+// 		} else if (content.includes( 'you do' ) ) {
+// 			response = 'Do what?';
+// 		} else if (content.includes( 'do what' ) ) {
+// 			response = 'Remind me of the babe.';
+// 		}
 
-		// If it isn't an empty string...respond accordingly.
-		if ( response !== '' ) {
-			// console.log(response);
-			responseTweet('@' + name + ' ' + response);
-		}
-	}
-}
+// 		// If it isn't an empty string...respond accordingly.
+// 		if ( response !== '' ) {
+// 			// console.log(response);
+// 			responseTweet('@' + name + ' ' + response);
+// 		}
+// 	}
+// }
 
-// Tweet it out, loud + proud.
-function responseTweet( txt ) {
+// // Tweet it out, loud + proud.
+// function responseTweet( txt ) {
 
-	// Content of response tweet.
-	const tweet = {
-		status: txt
-	}
+// 	// Content of response tweet.
+// 	const tweet = {
+// 		status: txt
+// 	}
 
-	T.post('statuses/update', tweet, tweeted);
+// 	T.post('statuses/update', tweet, tweeted);
 
-	function tweeted(err, data, response) {
-		if (err) {
-			console.log( 'Oops.' );
-		} else {
-			console.log( 'Response completed.' );
-		}
-	}
-}
+// 	function tweeted(err, data, response) {
+// 		if (err) {
+// 			console.log( 'Oops.' );
+// 		} else {
+// 			console.log( 'Response completed.' );
+// 		}
+// 	}
+// }
