@@ -1,3 +1,4 @@
+# Ignore these things.
 node_modules/
 config.js
 /*.env
