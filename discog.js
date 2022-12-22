@@ -6,12 +6,12 @@ module.exports = [
 
 	{
 		name: 'The Next Day',
-		id: '11317214'
+		id: '14291733'
 	},
 
 	{
 		name: 'Reality',
-		id: '10350421'
+		id: '13842726'
 	},
 
 	{
@@ -21,7 +21,7 @@ module.exports = [
 
 	{
 		name: 'Hours',
-		id: '15520583'
+		id: '20905314'
 	},
 
 	{
@@ -36,17 +36,17 @@ module.exports = [
 
 	{
 		name: 'Black Tie White Noise',
-		id: '10282359'
+		id: '15520609'
 	},
 
 	{
 		name: 'Never Let Me Down',
-		id: '10278344'
+		id: '21034107'
 	},
 
 	{
 		name: 'Tonight',
-		id: '10286830'
+		id: '15590945'
 	},
 
 	{
@@ -56,12 +56,12 @@ module.exports = [
 
 	{
 		name: 'Let\'s Dance',
-		id: '15520628'
+		id: '20968913'
 	},
 
 	{
 		name: 'Scary Monsters (and Super Creeps)',
-		id: '21034110'
+		id: '28255709'
 	},
 
 	{
@@ -71,56 +71,56 @@ module.exports = [
 
 	{
 		name: 'Heroes',
-		id: '15511464'
+		id: '15715214'
 	},
 
 	{
 		name: 'Low',
-		id: '10281127'
+		id: '20910423'
 	},
 
 	{
 		name: 'Station to Station',
-		id: '10284216'
+		id: '21034113'
 	},
 
 	{
 		name: 'Young Americans',
-		id: '10303893'
+		id: '21034116'
 	},
 
 	{
 		name: 'Diamond Dogs',
-		id: '10284027'
+		id: '20928953'
 	},
 
 	{
 		name: 'Pin Ups',
-		id: '10314097'
+		id: '21034120'
 	},
 
 	{
 		name: 'Aladdin Sane',
-		id: '15520630'
+		id: '21034121'
 	},
 
 	{
 		name: 'The Rise and Fall of Ziggy Stardust and the Spiders from Mars',
-		id: '10277828'
+		id: '15520632'
 	},
 
 	{
 		name: 'Hunky Dory',
-		id: '10286820'
+		id: '21034125'
 	},
 
 	{
 		name: 'The Man Who Sold the World',
-		id: '10286819'
+		id: '21034126'
 	},
 
 	{
 		name: 'David Bowie',
-		id: '10299892'
+		id: '20877525'
 	}
 ]
