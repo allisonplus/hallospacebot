@@ -17,7 +17,7 @@
   "author": "Allison Tarr",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^1.2.1",
     "dotenv": "^4.0.0",
     "twit": "^2.2.5"
   }
