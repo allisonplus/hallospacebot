@@ -4,7 +4,7 @@ A Twitter bot that provides moonlight, Bowie lyrics and stardust companionship.
 
 ## About This Project
 
-Currently Spacebot tweets lyrics every eight hours. These lyrics are sourced (randomly) from an API from David Bowie’s discography. It also has a ‘call and response’ function when Twitter users @ it with parts of the ‘You remind me of the babe’ banter from the movie _Labyrinth_.
+Currently Spacebot tweets lyrics every eight hours. These lyrics are sourced (randomly) from an API from David Bowie’s discography.
 
 ## API Reference
 
