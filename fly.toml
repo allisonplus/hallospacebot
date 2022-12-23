@@ -1,4 +1,4 @@
-# fly.toml file generated for hallo-spacebot on 2022-12-22T11:10:30-08:00
+# fly.toml file generated for hallo-spacebot on 2022-12-22T15:58:38-08:00
 
 app = "hallo-spacebot"
 kill_signal = "SIGINT"
@@ -37,6 +37,6 @@ processes = []
 
   [[services.tcp_checks]]
     grace_period = "1s"
-    interval = "15s"
+    interval = "30s"
     restart_limit = 0
     timeout = "2s"
