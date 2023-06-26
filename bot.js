@@ -1,19 +1,23 @@
-//Require .env NPM package
+// Require .env NPM package.
 require('dotenv').config();
 
-// Require twit NPM package.
-const Twit = require( 'twit' );
+// Require Twitter API V2 package.
+const { TwitterApi } = require('twitter-api-v2');
 
 // Require axios NPM package.
 const axios = require( 'axios' );
 
 // Pass object to twit package.
-const T = new Twit( {
-	consumer_key: process.env.CONSUMER_KEY,
-	consumer_secret: process.env.CONSUMER_SECRET,
-	access_token: process.env.ACCESS_TOKEN,
-	access_token_secret: process.env.ACCESS_TOKEN_SECRET
+const T = new TwitterApi( {
+	appKey: process.env.CONSUMER_KEY,
+	appSecret: process.env.CONSUMER_SECRET,
+	accessToken: process.env.ACCESSTOKEN,
+	accessSecret: process.env.ACCESSSECRET,
+	client_id: process.env.CLIENT_ID,
+	client_secret: process.env.CLIENT_SECRET
 } );
+
+const twitterClient = T.readWrite;
 
 // Variable for key.
 const key = process.env.KEY;
@@ -30,9 +34,6 @@ const tweetInterval = hour * 8; // for actual bot timing
 
 // Config file for discography info.
 const albums = require( './discog' );
-
-// Get the twitter user stream (for responses to Spacebot).
-// const stream = T.stream('user');
 
 // Return random number.
 function randomNum( length ) {
@@ -52,7 +53,6 @@ function randomAlbum() {
 	const albumID = albums[random].id;
 
 	// console.log(`My album number is ${albumID}`);
-
 	getAlbumInfo( albumID );
 }
 
@@ -66,7 +66,6 @@ function getAlbumInfo( albumID ) {
 			const trackList = response.data.message.body.track_list;
 
 			// console.log('calling track list');
-
 			randomTrack( trackList );
 		})
 		.catch(function (error) {
@@ -87,7 +86,6 @@ function randomTrack( trackList ) {
 	const trackID = trackList[random].track.track_id;
 
 	// console.log(`My track number is ${trackID}`);
-
 	getLyrics( trackID );
 }
 
@@ -162,22 +160,15 @@ function selectLines( lyrics ) {
 		// Call the function that tweets the final lyric.
 		saySomething( finalLyric );
 	}
-
 }
 
 // Tweet the final lyrics!
-function saySomething( finalLyric ) {
+const saySomething = async ( finalLyric ) => {
 
-	const tweet = {
-		status: `"${finalLyric}"`
-	}
+	await twitterClient.v2.tweet( `"${finalLyric}"`, tweeted );
 
-	T.post('statuses/update', tweet, tweeted);
-
-	// console.log(finalLyric); // for testing
-
-	function tweeted(err, data, response) {
-		if (err) {
+	function tweeted( err, data, response ) {
+		if ( err ) {
 			console.log( 'Uh oh, something askew.' );
 		} else {
 			console.log( 'Woo, it worked!' );
@@ -190,75 +181,3 @@ setInterval( randomAlbum, tweetInterval );
 
 // 2.) Tweet out a lyric initially when initialized.
 randomAlbum();
-
-// Create an event when someone tweets Spacebot.
-// stream.on('tweet', tweetEvent);
-
-// function tweetEvent( babeReminder ) {
-
-// 	// Create boolean for seeing if it's a reply.
-// 	let isReply = false;
-
-// 	// Did they @ me?
-// 	const replyTo = babeReminder.in_reply_to_screen_name;
-
-// 	// Reset boolean to true if they were talking to little ol' Spacebot.
-// 	if ( replyTo === 'HalloSpacebot' ) {
-// 		isReply = true;
-// 	}
-
-// 	// Content of tweet.
-// 	const content = babeReminder.text.toLowerCase();
-
-// 	// Who is talking to me?
-// 	const name = babeReminder.user.screen_name;
-
-// 	// Set response as empty string.
-// 	let response = '';
-
-// 	// Were they talking to Spacebot? If so, then...
-// 	if ( isReply ) {
-// 		if (content.includes( 'you remind me of the babe' ) ) {
-// 			response = 'What babe?';
-// 		} else if (content.includes( 'what babe' ) ) {
-// 			response = 'The babe with the power.';
-// 		} else if (content.includes( 'the babe with the power' ) ) {
-// 			response = 'What power?';
-// 		} else if (content.includes( 'what power' ) ) {
-// 			response = 'Power of voodoo.';
-// 		} else if (content.includes( 'power of voodoo' ) ) {
-// 			response = 'Who do?';
-// 		} else if (content.includes( 'who do' ) ) {
-// 			response = 'You do.';
-// 		} else if (content.includes( 'you do' ) ) {
-// 			response = 'Do what?';
-// 		} else if (content.includes( 'do what' ) ) {
-// 			response = 'Remind me of the babe.';
-// 		}
-
-// 		// If it isn't an empty string...respond accordingly.
-// 		if ( response !== '' ) {
-// 			// console.log(response);
-// 			responseTweet('@' + name + ' ' + response);
-// 		}
-// 	}
-// }
-
-// // Tweet it out, loud + proud.
-// function responseTweet( txt ) {
-
-// 	// Content of response tweet.
-// 	const tweet = {
-// 		status: txt
-// 	}
-
-// 	T.post('statuses/update', tweet, tweeted);
-
-// 	function tweeted(err, data, response) {
-// 		if (err) {
-// 			console.log( 'Oops.' );
-// 		} else {
-// 			console.log( 'Response completed.' );
-// 		}
-// 	}
-// }
