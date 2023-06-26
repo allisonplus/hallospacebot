@@ -16,4 +16,5 @@ Utilizes the API at [MusixMatch](https://developer.musixmatch.com/)
 + [Twitter Streaming API](https://dev.twitter.com/streaming/overview) docs
 + All the [node](https://nodejs.org/en/)
 + NPM [Twit](https://www.npmjs.com/package/twit) package
-+ [Deploying to Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction)
++ [Thanks to ThunderySteak's changes](https://github.com/thunderysteak/EveryHourBot), I was able to figure out how to update to Twitter API V2
++ [Deploying to Fly.io](https://fly.io/docs/languages-and-frameworks/node/)
