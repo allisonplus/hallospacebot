@@ -163,9 +163,9 @@ function selectLines( lyrics ) {
 }
 
 // Tweet the final lyrics!
-const saySomething = async(finalLyric) => {
+const saySomething = async function(finalLyric) {
 
-	await twitterClient.v2.tweet( `"${finalLyric}"` );
+	await twitterClient.v2.tweet( `${finalLyric}` );
 }
 
 // 1.) Set how often Spacebot tweets a lyric by kicking off searching for a random album.
